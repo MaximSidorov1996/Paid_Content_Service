@@ -1,0 +1,27 @@
+{% extends 'content_app/base.html'%}
+
+{% block content %}
+<img src="/media/logo/header.png" class="card-img-top" alt="Card image cap">
+<div class="container">
+    <div class="row text-center">
+        <div class="col-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
+                </div>
+                <div class="card-body">
+                    <a class="nav-link" href="{% url 'content_app:channel_view' channel.id %}">Автор: {{channel.title }}</a>
+                    <p>Просмотры:{{ object.views_count }}</p>
+                    <p>{{ object.content }}</p>
+                     {% if object.image %}
+                    <p>
+                        <img src="/media/{{ object.image }}" class="card-img-top" alt="Card image cap">
+                        </p>
+                     {% endif %}
+                    <a class="p-2 btn btn-outline-primary" href='{% url "content_app:channel_view" object.channel.id %}'>К каналу</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

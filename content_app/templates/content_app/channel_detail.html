@@ -1,0 +1,76 @@
+{% extends 'content_app/base.html'%}
+
+{% block content %}
+<img src="/media/logo/header.png" class="card-img-top" alt="Card image cap">
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">{{ object.title }}</h1>
+          {% if object.image %}
+          <img src="/media/{{ object.image }}" class="bd-placeholder-img rounded-circle" alt="Card image cap" width="140" height="140">
+          {% else %}
+          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/><text x="25%" y="50%" fill="#eceeef" dy=".3em">{{ object.title }}</text></svg>
+            {% endif %}
+          <p class="lead text-muted">{{ object.description }}</p>
+          <p class="lead text-muted">Подписчики: {{ followers }}</p>
+          <p class="lead text-muted">Публикации: {{ publications_count }}</p>
+            {% if user.id != object.owner_id%}
+          {% if not subscription and user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-sm btn-primary btn-follow" value="Подписаться на канал" name="button">
+                </form>
+          {% elif subscription %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-sm btn-primary btn-follow" value="Отписаться от канала" name="button">
+            </form>
+          {% else %}
+          <a href="{% url 'users:register' %}" class="btn btn-success btn-lg">Получить Plus</a>
+          {% endif %}
+          {% else %}
+          <a href="{% url 'content_app:channel_edit' object.id %}" class="btn btn-success btn-lg">Изменить</a>
+          {% endif %}
+      </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <h1 class="fw-light">Лента</h1>
+        {% if user.id == object.owner_id and user.is_authenticated %}
+        <a href="{% url 'content_app:publication_create' %}" class="btn btn-success btn-lg">Создать публикацию</a>
+        {% endif %}
+        <div class="row g-3">
+            {% for publication in publications %}
+                <div class="col mb-5">
+                <div class="card" style="width: 50rem;">
+                    <div class="card-body">
+                    <h2>
+                        <a class="nav-link" href="{% url 'content_app:publication_detail' publication.id %}"> {{ publication.title }}</a>
+                    </h2>
+                    <p class="card-text"> {{ publication.content }}</p>
+                        {% if publication.is_free %}
+                            <p class="card-text"> FREE </p>
+                        {% else %}
+                            <p class="card-text"> $$$ </p>
+                        {% endif %}
+                        {% if publication.image %}
+                            <img src="/media/{{ publication.image }}" class="card-img-top">
+                        {% endif %}
+                        {% if user.id == publication.owner_id %}
+                            <a href="{% url 'content_app:publication_edit' publication.id %}" class="btn btn-outline-primary">Изменить</a>
+                            <a href="{% url 'content_app:publication_delete' publication.id %}" class="btn btn-outline-warning">УДалить</a>
+                        {% endif %}
+                        <div class="card-footer">
+                        {{ publication.made_at }}
+                        <h6>Просмотры: {{ publication.views_count }}</h6>
+                        </div>
+                </div>
+                        </div>
+                    </div>
+            {% endfor %}
+                </div>
+        </div>
+        </div>
+{% endblock %}

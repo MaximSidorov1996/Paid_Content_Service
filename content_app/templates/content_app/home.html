@@ -1,0 +1,56 @@
+{% extends 'content_app/base.html'%}
+
+{% block content %}
+<main>
+  <img src="/media/logo/header.png" class="card-img-top" alt="Card image cap">
+  <div class="container marketing">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-4 mb-5">
+    <h1>
+      Каналы
+    </h1>
+    </div>
+      </div>
+    <div class="row">
+      <div class="col-lg-4 mb-5">
+      {% for channel in channels %}
+        <h3>{{ channel.title }}</h3>
+        {% if channel.image %}
+          <img src="/media/{{ object.image }}" class="bd-placeholder-img rounded-circle" alt="Card image cap" width="140" height="140">
+        {% else %}
+          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"/><text x="25%" y="50%" fill="#eceeef" dy=".3em">{{ channel.title }}</text></svg>
+        {% endif %}
+        <p>{{ channel.description }}</p>
+        <p><a class="btn btn-secondary" href="{% url 'content_app:channel_view' channel.id%}">Посмотреть детали &raquo;</a></p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4 mb-5">
+      {% endfor %}
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+
+    <h1>Бесплатные публикации</h1>
+    <!-- START ОСОБЕННОСТИ -->
+    {% for publication in publications %}
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h4>
+        <a class="nav-link" href="{% url 'content_app:publication_detail' publication.id %}"> {{ publication.title }}</a>
+        </h4>
+        <p class="lead">{{ publication.content }}</p>
+      </div>
+      <div class="col-md-5">
+        {% if publication.image %}
+        <img src="/media/{{ publication.image }}" class="card-img-top" alt="Card image cap">
+        {% endif %}
+
+      </div>
+    </div>
+    {% endfor %}
+
+</div>
+  </div>
+</main>
+{% endblock %}

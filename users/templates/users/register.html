@@ -1,0 +1,22 @@
+{% extends 'content_app/base.html'%}
+
+{% block content %}
+<main class="form-signin">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col">
+          <img src="/media/logo/logo.png" class="bd-placeholder-img rounded-circle" alt="Card image cap" width="140" height="140">
+        <form method="post">
+                            <h2> РЕГИСТРАЦИЯ </h2>
+                             {% csrf_token %}
+                             {{ form.as_p }}
+                             <button type="submit" style="btn btn-primary">
+                               Зарегистрироваться
+                             </button>
+         </form>
+      </div>
+      </div>
+  </div>
+        </div>
+</main>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'content_app/base.html'%}
+
+{% block content %}
+<div class="container">
+    <div class="col-12">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <h1>Вы действительно хотите удалить публикацию "{{ object.title }}"?</h1>
+                        <button type="submit" class="btn btn-danger">Подтвердить</button>
+                        <a href="{% url 'content_app:channel_list' %}" class="btn btn-warning">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

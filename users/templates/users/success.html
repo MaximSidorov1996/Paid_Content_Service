@@ -1,0 +1,22 @@
+{% extends 'content_app/base.html'%}
+
+{% block content %}
+<main class="form-signin">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-3">
+        </div>
+      <div class="col-3">
+          <h2> Введите номер телефона для активации профиля:</h2>
+        <form method="post">
+                            {% csrf_token %}
+                            <input type="text" name="number_phone" size="40">
+                            <button type="submit" style="btn btn-primary">
+                                Подтвердить
+                            </button>
+                        </form>
+      </div>
+      </div>
+  </div>
+</main>
+{% endblock %}
